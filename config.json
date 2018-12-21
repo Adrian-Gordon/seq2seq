@@ -1,0 +1,13 @@
+{
+"data_modulename":"generate_univariate_data",
+"input_sequence_length": 15,
+"output_sequence_length": 20,
+"batch_size" :10,
+"input_dim" : 1,
+"output_dim":1,
+"num_stacked_layers" :2,
+"hidden_dim" :64,
+"learning_rate" :0.001,
+"gradient_clipping": 2.5,
+"epochs": 100
+}

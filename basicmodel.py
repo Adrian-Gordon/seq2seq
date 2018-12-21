@@ -122,8 +122,9 @@ class Seq2Seq:
     inferred_outputs=[]
    
     #decoder_input = tf.constant([[0]], dtype=tf.float64) #the 'Go' token
-    decoder_input = np.array([ tf.zeros_like(decoder_target_inputs[0], dtype=tf.float64, name="GO-Inference") ])
-
+    decoder_input = [[ tf.zeros_like(decoder_target_inputs[0], dtype=tf.float64, name="GO-Inference") ] ]
+    #decoder_input = decoder_input[0]
+    print decoder_input
     encoder_outputs, states = tf.contrib.rnn.static_rnn(encode_cell, encoder_inputs, dtype=tf.float64)
 
     reshaped_decoder_output = None

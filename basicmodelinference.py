@@ -45,6 +45,8 @@ with tf.Session() as sess:
   saver = tf.train.Saver
   saver().restore(sess, os.path.join('./',config["savefilename"]))
   feed_dict={encoder_inputs[t]: test_sequence_input[t].reshape(1,config["input_dim"]) for t in range(config["input_sequence_length"])}
+  feed_dict.update({decoder_target_inputs[t]: np.zeros([1,config["output_dim"]]) for t in range(config["output_sequence_length"])})
+  #feed_dict.update({rnn_model['target_seq'][t]: np.zeros([1,output_dim]) for t in range(output_seq_len)})
 
   test_out = np.array(sess.run(seq2seqInference.encoder_decoder_inference,feed_dict)).reshape(-1)[:20]
 

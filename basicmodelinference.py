@@ -33,12 +33,11 @@ init = tf.global_variables_initializer()
 
 gd=GenerateData(config["datafilename"])
 
-#test_sequence_input = gd.true_signal(gd.train_data_x[-15:])
+
 test_sequence_input, test_sequence_output = gd.getTrainingSample(1,config["input_sequence_length"], config["output_sequence_length"])
 test_sequence_input = test_sequence_input[0]
 test_sequence_output = test_sequence_output[0]
-#print test_sequence_input
-#print test_sequence_output
+
 
 with tf.Session() as sess:
   sess.run(init)
@@ -46,20 +45,25 @@ with tf.Session() as sess:
   saver().restore(sess, os.path.join('./',config["savefilename"]))
   feed_dict={encoder_inputs[t]: test_sequence_input[t].reshape(1,config["input_dim"]) for t in range(config["input_sequence_length"])}
   feed_dict.update({decoder_target_inputs[t]: np.zeros([1,config["output_dim"]]) for t in range(config["output_sequence_length"])})
-  #feed_dict.update({rnn_model['target_seq'][t]: np.zeros([1,output_dim]) for t in range(output_seq_len)})
 
-  test_out = np.array(sess.run(seq2seqInference.encoder_decoder_inference,feed_dict)).reshape(-1)[:20]
-
-  print(test_out)
+  test_out = np.array(sess.run(seq2seqInference.encoder_decoder_inference,feed_dict)).transpose()#.reshape(-1)[:20]
+  test_in = test_sequence_input.transpose()
  
-
-  #l1, = plt.plot(range(85), gd.true_signal(gd.train_data_x[:85]), label = 'Training truth')
-  #l2, = plt.plot(range(85, 105), gd.y[85:], 'yo', label = 'Test truth')
-  #l3, = plt.plot(range(85,105), np.array(test_out).reshape(-1), 'r-', label = 'Test Predictions')
-  l1, = plt.plot(range(config["input_sequence_length"]), test_sequence_input,'b-', label = 'Training input')
-  l2, =plt.plot(range(config["input_sequence_length"],config["input_sequence_length"] + config["output_sequence_length"]),test_sequence_output,'c-', label = 'Training output')
-  l3, =plt.plot(range(config["input_sequence_length"],config["input_sequence_length"] + config["output_sequence_length"]),test_out,'ro', label = 'Predicted output')
+#Univariate case
+ # l1, =plt.plot(range(config["input_sequence_length"]),test_in,'c-', label = 'Training input')
+ # l2, =plt.plot(range(config["input_sequence_length"],config["input_sequence_length"] + config["output_sequence_length"]),test_out.reshape(-1),'ro', label = 'Predicted output')
  
-  plt.legend(handles=[l1,l2,l3], loc = 'lower left')
+ # plt.legend(handles=[l1,l2], loc = 'lower left')
+
+ # plt.show()
+
+#multivariate case
+  l1, = plt.plot(range(config["input_sequence_length"]),test_in[0] ,'b-', label = 'Sample input 0')
+  l2, = plt.plot(range(config["input_sequence_length"]),test_in[1] ,'c-', label = 'Sample input 1')
+  l3, = plt.plot(range(config["input_sequence_length"]),test_in[2] ,'m-', label = 'Sample input 1')
+  l3, =plt.plot(range(config["input_sequence_length"],config["input_sequence_length"] + config["output_sequence_length"]),test_out[0][0],'ro', label = 'Predicted output 0')
+  l4, =plt.plot(range(config["input_sequence_length"],config["input_sequence_length"] + config["output_sequence_length"]),test_out[1][0],'bo', label = 'Predicted output 1')
+  plt.legend(handles=[l1,l3, l4], loc = 'lower left')
 
   plt.show()
+ 

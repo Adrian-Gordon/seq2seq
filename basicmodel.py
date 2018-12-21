@@ -122,21 +122,32 @@ class Seq2Seq:
     inferred_outputs=[]
    
     #decoder_input = tf.constant([[0]], dtype=tf.float64) #the 'Go' token
-    decoder_input = [[ tf.zeros_like(decoder_target_inputs[0], dtype=tf.float64, name="GO-Inference") ] ]
+    #all are dummy 'Go' tokens in this case - only the first one is actually used
+    decoder_inputs = [ tf.zeros_like(decoder_target_inputs[0], dtype=tf.float64, name="GO-Inference") ] + decoder_target_inputs[:-1]
     #decoder_input = decoder_input[0]
-    print decoder_input
+    #print decoder_input
     encoder_outputs, states = tf.contrib.rnn.static_rnn(encode_cell, encoder_inputs, dtype=tf.float64)
 
     reshaped_decoder_output = None
-    for i in range(config["output_sequence_length"]):
-      if reshaped_decoder_output == None:
+
+    for i, decoder_input in enumerate(decoder_inputs):
+      if reshaped_decoder_output ==None:
         decoder_output, states = decode_cell(decoder_input, states)         ##pass in 'Go' data, and state, from encoder
         reshaped_decoder_output = tf.matmul(decoder_output, self.weights) + self.biases
       else:
         decoder_output, states = decode_cell(reshaped_decoder_output, states) #pass in previous (generated) data point and previous state - generates an output, and a new decoder state
         reshaped_decoder_output = tf.matmul(decoder_output, self.weights) + self.biases
-
+    #  print(reshaped_decoder_output)
       inferred_outputs.append(reshaped_decoder_output)
+   # for i in range(config["output_sequence_length"]):
+   #   if reshaped_decoder_output == None:
+    #    decoder_output, states = decode_cell(decoder_input, states)         ##pass in 'Go' data, and state, from encoder
+   #     reshaped_decoder_output = tf.matmul(decoder_output, self.weights) + self.biases
+   #   else:
+   #     decoder_output, states = decode_cell(reshaped_decoder_output, states) #pass in previous (generated) data point and previous state - generates an output, and a new decoder state
+    #    reshaped_decoder_output = tf.matmul(decoder_output, self.weights) + self.biases
+
+    #  inferred_outputs.append(reshaped_decoder_output)
 
     return inferred_outputs
 

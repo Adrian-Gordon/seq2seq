@@ -43,7 +43,7 @@ class GenerateData:
 #test
 #gd = GenerateData('multivariate-data.csv')
 
-#input_batches, output_batches = gd.getTrainingSample(5,15,20)
+#input_batches, output_batches = gd.getTrainingSample(1,10,5)
 
 #print input_batches
 #print output_batches

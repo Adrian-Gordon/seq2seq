@@ -1,2 +1,2 @@
-model_checkpoint_path: "multivariate-seq2seq0"
-all_model_checkpoint_paths: "multivariate-seq2seq0"
+model_checkpoint_path: "beijing-seq2seq0"
+all_model_checkpoint_paths: "beijing-seq2seq0"

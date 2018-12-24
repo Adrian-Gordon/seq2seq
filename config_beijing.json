@@ -1,0 +1,15 @@
+{
+"data_modulename":"generate_beijing_data",
+"datafilename": "./data/PRSA_data_2010.1.1-2014.12.31.csv",
+"savefilename":"beijing-seq2seq0",
+"input_sequence_length": 30,
+"output_sequence_length": 5,
+"batch_size" :16,
+"input_dim" : 11,
+"output_dim":1,
+"num_stacked_layers" :2,
+"hidden_dim" :64,
+"learning_rate" :0.01,
+"gradient_clipping": 2.5,
+"epochs": 100
+}

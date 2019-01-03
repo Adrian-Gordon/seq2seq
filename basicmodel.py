@@ -160,7 +160,18 @@ class Seq2Seq:
       #for _y, _Y in zip(self.encode_decode,decoder_target_inputs):
       #      output_loss += tf.reduce_mean(tf.pow(_y - _Y, 2))
       #return output_loss
-      return tf.reduce_mean(tf.pow(tf.subtract(self.encode_decode,decoder_target_inputs),2))
+      output_loss =  tf.reduce_mean(tf.pow(tf.subtract(self.encode_decode,decoder_target_inputs),2))
+
+      regularization_loss = 0
+
+      for tf_var in tf.trainable_variables():
+        if 'Biases_' in tf_var.name or 'Weights_' in tf_var.name:
+          regularization_loss += tf.reduce_mean(tf.nn.l2_loss(tf_var)) 
+
+      loss = output_loss + (config["l2_regularization_lambda"] * regularization_loss)
+
+      return loss
+
       
 
   @define_scope

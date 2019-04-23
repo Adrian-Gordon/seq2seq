@@ -10,7 +10,7 @@
 "num_stacked_layers" :2,
 "hidden_dim" :64,
 "learning_rate" :0.01,
-"l2_regularization_lambda":0.3,
+"l2_regularization_lambda":0.03,
 "gradient_clipping": 2.5,
 "epochs": 100
 }

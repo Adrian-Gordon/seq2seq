@@ -66,9 +66,9 @@ class Seq2Seq:
                   collections=[tf.GraphKeys.GLOBAL_STEP, tf.GraphKeys.GLOBAL_VARIABLES])
 
     self.encoder_decoder
-    self.encode_decode
-    self.loss
-    self.optimize
+    self.encode_decode 
+    self.loss 
+    self.optimize 
     
 
   #build the encoder/decoder cells

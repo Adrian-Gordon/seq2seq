@@ -56,7 +56,10 @@ def main():
       writer = tf.summary.FileWriter('./graphs/seq2seq/basic', sess.graph)
 
       #generate a data batch
-      input_batch, output_batch = gd.getTrainingSample(batch_size = config["batch_size"], input_seq_length =config["input_sequence_length"], output_seq_length = config["output_sequence_length"])
+      input_batch, output_batch = gd.getTrainingSample(seq_length=config["seq_length"],batch_size = config["batch_size"], input_seq_length =config["input_sequence_length"], output_seq_length = config["output_sequence_length"])
+
+      #for beijing, it would be:
+      # input_batch, output_batch = gd.getTrainingSample(batch_size = config["batch_size"], input_seq_length =config["input_sequence_length"], output_seq_length = config["output_sequence_length"])
 
       reshaped_input_batch = gd.reshape(np.array(input_batch),config["input_sequence_length"], config["input_dim"])
 
